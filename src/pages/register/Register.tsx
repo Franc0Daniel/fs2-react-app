@@ -1,105 +1,47 @@
+import { useAuth } from "react-oidc-context";
+
 const Register = () => {
+  const auth = useAuth();
+
+  if (auth.isLoading) return <p>Cargando...</p>;
+  if (auth.error) return <p>Error: {auth.error.message}</p>;
+
   return (
     <main>
       <section className="contenedor-formulario" aria-labelledby="titulo-registro">
         <article className="formulario-card">
           <h1 id="titulo-registro">Crear cuenta 💗</h1>
-          <p className="formulario-descripcion">
-            Regístrate en AriPapelería para disfrutar de nuestros productos y novedades.
-          </p>
 
-          <form id="registerForm" noValidate>
-            <div className="campo-formulario">
-              <label htmlFor="nombre">Nombre completo</label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                autoComplete="name"
-                placeholder="Ingresa tu nombre completo"
-                required
-              />
-              <small id="nombreError" className="mensaje-error"></small>
-            </div>
-
-            <div className="campo-formulario">
-              <label htmlFor="email">Correo electrónico</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                autoComplete="email"
-                placeholder="ejemplo@correo.com"
-                required
-              />
-              <small id="emailError" className="mensaje-error"></small>
-            </div>
-
-            <div className="campo-formulario">
-              <label htmlFor="telefono">Teléfono</label>
-              <input
-                type="tel"
-                id="telefono"
-                name="telefono"
-                autoComplete="tel"
-                placeholder="+56 9 1234 5678"
-                required
-              />
-              <small id="telefonoError" className="mensaje-error"></small>
-            </div>
-
-            <div className="campo-formulario">
-              <label htmlFor="password">Contraseña</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                autoComplete="new-password"
-                placeholder="Crea una contraseña"
-                required
-              />
-              <small className="mensaje-ayuda">
-                Usa al menos 8 caracteres, incluyendo una mayúscula y un número.
-              </small>
-              <small id="passwordError" className="mensaje-error"></small>
-            </div>
-
-            <div className="campo-formulario">
-              <label htmlFor="confirmPassword">Confirmar contraseña</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                autoComplete="new-password"
-                placeholder="Repite tu contraseña"
-                required
-              />
-              <small id="confirmPasswordError" className="mensaje-error"></small>
-            </div>
-
-            <div className="campo-checkbox">
-              <input type="checkbox" id="terminos" name="terminos" required />
-              <label htmlFor="terminos">Acepto los términos y condiciones.</label>
-            </div>
-            <small id="terminosError" className="mensaje-error"></small>
-
-            <div className="campo-checkbox newsletter">
-              <input type="checkbox" id="newsletter" name="newsletter" />
-              <label htmlFor="newsletter">
-                Quiero suscribirme al newsletter de AriPapelería para recibir novedades,
-                promociones y nuevos productos.
-              </label>
-            </div>
-
-            <button type="submit" className="boton-formulario">
-              Crear cuenta
-            </button>
-
-            <p id="mensajeRegistro" className="mensaje-registro" aria-live="polite"></p>
-          </form>
+          {auth.isAuthenticated ? (
+            <p className="formulario-descripcion">
+              Ya tienes sesión iniciada como {auth.user?.profile.email}.
+            </p>
+          ) : (
+            <>
+              <p className="formulario-descripcion">
+                Regístrate en AriPapelería para disfrutar de nuestros productos y
+                novedades.
+              </p>
+              <p className="mensaje-ayuda">
+                Te llevaremos a una pantalla segura para crear tu cuenta con tu
+                correo electrónico. Te enviaremos un código de verificación.
+              </p>
+              <button
+                type="button"
+                className="boton-formulario"
+                onClick={() => auth.signinRedirect()}
+              >
+                Crear cuenta
+              </button>
+            </>
+          )}
 
           <p className="enlace-login">
-            ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a>
+            ¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a>
+          </p>
+
+          <p className="enlace-inicio">
+            <a href="/">← Volver al inicio</a>
           </p>
         </article>
       </section>
