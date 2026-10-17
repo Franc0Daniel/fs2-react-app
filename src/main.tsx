@@ -11,8 +11,7 @@ const cognitoAuthConfig: AuthProviderProps = {
     'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_wK31TfoIN',
   client_id: import.meta.env.VITE_OIDC_CLIENT_ID ?? '3vlbsrblbgrf9ig1uh6r8vhgbe',
   redirect_uri:
-    import.meta.env.VITE_OIDC_REDIRECT_URI ??
-    'https://d84l1y8p4kdic.cloudfront.net',
+    import.meta.env.VITE_OIDC_REDIRECT_URI ?? window.location.origin,
   response_type: 'code',
   scope: 'email openid phone',
   onSigninCallback: () => {

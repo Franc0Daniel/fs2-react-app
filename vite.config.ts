@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Base path para GitHub Pages (https://<usuario>.github.io/fs2-react-app/)
-  base: '/fs2-react-app/',
+  // En Vercel la app vive en la raíz ('/'); en GitHub Pages va en la subcarpeta.
+  base: process.env.VERCEL ? '/' : '/fs2-react-app/',
   plugins: [react()],
 })
