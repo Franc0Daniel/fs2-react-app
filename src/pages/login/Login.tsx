@@ -4,12 +4,12 @@ const Login = () => {
   const auth = useAuth();
 
   const cerrarSesion = () => {
-    const clientId = "3vlbsrblbgrf9ig1uh6r8vhgbe";
-    const logoutUri = window.location.origin;
-    const cognitoDomain = "PEGA_AQUI_TU_DOMINIO_DE_COGNITO";
-    auth.removeUser();
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-  };
+  const clientId = import.meta.env.VITE_OIDC_CLIENT_ID ?? "3vlbsrblbgrf9ig1uh6r8vhgbe";
+  const logoutUri = import.meta.env.VITE_OIDC_REDIRECT_URI ?? window.location.origin;
+  const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
+  auth.removeUser();
+  window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+};
 
   if (auth.isLoading) return <p>Cargando...</p>;
   if (auth.error) return <p>Error: {auth.error.message}</p>;
